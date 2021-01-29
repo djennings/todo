@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const API_URL = 'http://localhost:8000';
+interface Task {
+	id: number;
+	task: string;
+	completed: boolean;
+	dueDate: string;
 }
+
+type TaskRead = Omit<Task, 'completed' | 'dueDate'>;
+
+const App: React.FC = () => {
+	const [state, setState] = useState([]);
+
+	useEffect(() => {
+		const url: string = `${API_URL}/todos/`;
+		axios
+			.get(url)
+			.then((response) => response.data)
+			.then((data) => {
+				setState(data);
+			});
+	}, []);
+
+	const todoList = () =>
+		state.map<JSX.Element>((item: TaskRead) => (
+			<li key={item.id}>{item.task}</li>
+		));
+
+	return (
+		<div className="App">
+			<ul>{todoList()}</ul>
+		</div>
+	);
+};
 
 export default App;
