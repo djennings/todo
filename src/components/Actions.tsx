@@ -1,4 +1,5 @@
 import React from 'react';
+import TodoForm from './TodoForm';
 
 const Actions: React.FC = () => {
 	return (
@@ -6,6 +7,7 @@ const Actions: React.FC = () => {
 			<button>New</button>
 			<button>Show Complete</button>
 			<button>Show Active</button>
+			<TodoForm />
 		</div>
 	);
 };
