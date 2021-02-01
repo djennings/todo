@@ -1,0 +1,10 @@
+.action {
+	border-radius: 999px;
+	cursor: pointer;
+	margin-right: 25px;
+	padding: 5px 10px;
+}
+
+.action:last-of-type {
+	margin-right: 0;
+}
