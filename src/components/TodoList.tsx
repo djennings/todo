@@ -3,7 +3,7 @@ import { TodoContext } from '../contexts/TodoContext';
 import { ITodo } from '../todo.d';
 import Todo from './Todo';
 
-const TodoList = () => {
+const TodoList: React.FC = () => {
 	const { todos } = useContext(TodoContext);
 	return (
 		<ul>

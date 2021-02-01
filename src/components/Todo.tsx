@@ -5,7 +5,7 @@ type MyProps = {
 	item: ITodo;
 };
 
-const Todo = ({ item }: MyProps) => {
+const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 	return <li>{item.task}</li>;
 };
 
