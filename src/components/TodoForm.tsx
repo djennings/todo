@@ -55,7 +55,9 @@ const AddTodo = () => {
 					<button disabled={disabled} type="submit">
 						Add
 					</button>
-					<button onClick={handleReset}>Clear</button>
+					<button disabled={disabled} onClick={handleReset}>
+						Clear
+					</button>
 					<button onClick={handleCancel}>Cancel</button>
 				</div>
 			</form>

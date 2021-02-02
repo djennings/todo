@@ -53,6 +53,7 @@ const TodoContextProvider: React.FC = ({ children }) => {
 				return todo;
 			} else {
 				axios.delete(`${url}/${todo.id}`);
+				return false;
 			}
 		});
 		setTodos((prevTodos) => newTodos);
