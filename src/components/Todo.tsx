@@ -32,17 +32,21 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 				{item.task}
 			</span>
 			<img
-				onClick={handleDelete}
-				className={`${styles.deleteIcon}`}
-				src={deleteIcon}
 				alt="delete"
+				className={`${styles.deleteIcon}`}
+				onClick={handleDelete}
+				src={deleteIcon}
+				title="Delete to do"
 			/>
 
 			<img
-				onClick={handleCompleted}
-				className={`${styles.checkmarkIcon}`}
-				src={checkmark}
 				alt="completed"
+				className={`${styles.checkmarkIcon}`}
+				onClick={handleCompleted}
+				src={checkmark}
+				title={`Mark to do as ${
+					item.completed ? 'not completed' : 'completed'
+				}`}
 			/>
 		</li>
 	);
