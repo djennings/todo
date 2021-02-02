@@ -9,6 +9,7 @@ export const TodoContext = createContext<any>(null);
 const TodoContextProvider: React.FC = ({ children }) => {
 	const initialState: ITodo[] = [];
 	const [todos, setTodos] = useState<ITodo[]>(initialState);
+	const [addingNew, setAddingNew] = useState<boolean>(false);
 	const url: string = `${API_URL}/todos/`;
 
 	useEffect(() => {
@@ -29,6 +30,10 @@ const TodoContextProvider: React.FC = ({ children }) => {
 		});
 	};
 
+	const toggleAddingNew = () => {
+		setAddingNew((prevAdding) => !prevAdding);
+	};
+
 	const toggleTodo = (id: string) => {
 		const newTodos = todos.map((todo) => {
 			if (todo.id === id) {
@@ -42,8 +47,28 @@ const TodoContextProvider: React.FC = ({ children }) => {
 		setTodos((prevTodos) => newTodos);
 	};
 
+	const deleteTodo = (id: string) => {
+		const newTodos = todos.filter((todo) => {
+			if (todo.id !== id) {
+				return todo;
+			} else {
+				axios.delete(`${url}/${todo.id}`);
+			}
+		});
+		setTodos((prevTodos) => newTodos);
+	};
+
 	return (
-		<TodoContext.Provider value={{ todos, addTodo, toggleTodo }}>
+		<TodoContext.Provider
+			value={{
+				todos,
+				addTodo,
+				addingNew,
+				deleteTodo,
+				toggleAddingNew,
+				toggleTodo,
+			}}
+		>
 			{children}
 		</TodoContext.Provider>
 	);

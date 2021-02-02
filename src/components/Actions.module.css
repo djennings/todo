@@ -1,6 +1,15 @@
+.actions {
+	border-bottom: 1px solid black;
+	padding: 10px;
+}
+
 .action {
+	background-color: #1d74ce;
+	border-color: transparent;
 	border-radius: 999px;
+	color: white;
 	cursor: pointer;
+	font-weight: 700;
 	margin-right: 25px;
 	padding: 5px 10px;
 }

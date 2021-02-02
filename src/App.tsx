@@ -1,17 +1,13 @@
 import React from 'react';
 import TodoContextProvider from './contexts/TodoContext';
-import TodoList from './components/TodoList';
-import Actions from './components/Actions';
+import TodoContainer from './components/TodoContainer';
 
 import './App.css';
 
 const App: React.FC = () => {
 	return (
 		<TodoContextProvider>
-			<Actions />
-			<div className="App">
-				<TodoList />
-			</div>
+			<TodoContainer />
 		</TodoContextProvider>
 	);
 };
