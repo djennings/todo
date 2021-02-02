@@ -4,7 +4,7 @@ import { TodoContext } from '../contexts/TodoContext';
 import classnames from 'classnames';
 import styles from './todo.module.css';
 import deleteIcon from '../delete.svg';
-import checkmark from '../checkmark.svg';
+import checkmark from '../checkmark-solid.svg';
 
 type MyProps = {
 	item: ITodo;
@@ -41,7 +41,9 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 
 			<img
 				alt="completed"
-				className={`${styles.checkmarkIcon}`}
+				className={classnames(`${styles.checkmarkIcon}`, {
+					[styles.completed]: item.completed,
+				})}
 				onClick={handleCompleted}
 				src={checkmark}
 				title={`Mark to do as ${
