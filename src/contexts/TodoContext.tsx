@@ -8,6 +8,7 @@ export const TodoContext = createContext<any>(null);
 
 const TodoContextProvider: React.FC = ({ children }) => {
 	const initialState: ITodo[] = [];
+
 	const [todos, setTodos] = useState<ITodo[]>(initialState);
 	const [addingNew, setAddingNew] = useState<boolean>(false);
 	const url: string = `${API_URL}/todos/`;
@@ -30,6 +31,18 @@ const TodoContextProvider: React.FC = ({ children }) => {
 		});
 	};
 
+	const deleteTodo = (id: string) => {
+		const newTodos = todos.filter((todo) => {
+			if (todo.id !== id) {
+				return todo;
+			} else {
+				axios.delete(`${url}/${todo.id}`);
+				return false;
+			}
+		});
+		setTodos((prevTodos) => newTodos);
+	};
+
 	const toggleAddingNew = () => {
 		setAddingNew((prevAdding) => !prevAdding);
 	};
@@ -42,18 +55,6 @@ const TodoContextProvider: React.FC = ({ children }) => {
 				return newTodo;
 			} else {
 				return todo;
-			}
-		});
-		setTodos((prevTodos) => newTodos);
-	};
-
-	const deleteTodo = (id: string) => {
-		const newTodos = todos.filter((todo) => {
-			if (todo.id !== id) {
-				return todo;
-			} else {
-				axios.delete(`${url}/${todo.id}`);
-				return false;
 			}
 		});
 		setTodos((prevTodos) => newTodos);
