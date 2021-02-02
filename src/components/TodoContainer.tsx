@@ -12,10 +12,10 @@ const TodoContainer: React.FC = () => {
 	return (
 		<div className={`${styles.container}`}>
 			<Actions />
-			{addingNew ? <TodoForm /> : null}
 			<div className="App">
 				<TodoList />
 			</div>
+			{addingNew ? <TodoForm /> : null}
 		</div>
 	);
 };

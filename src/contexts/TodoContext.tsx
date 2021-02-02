@@ -11,6 +11,7 @@ const TodoContextProvider: React.FC = ({ children }) => {
 
 	const [todos, setTodos] = useState<ITodo[]>(initialState);
 	const [addingNew, setAddingNew] = useState<boolean>(false);
+	const [filterItems, setFilterItems] = useState<string>('all');
 	const url: string = `${API_URL}/todos/`;
 
 	useEffect(() => {
@@ -43,6 +44,10 @@ const TodoContextProvider: React.FC = ({ children }) => {
 		setTodos((prevTodos) => newTodos);
 	};
 
+	const setFilter = (value: string) => {
+		setFilterItems(() => value);
+	};
+
 	const toggleAddingNew = () => {
 		setAddingNew((prevAdding) => !prevAdding);
 	};
@@ -67,6 +72,8 @@ const TodoContextProvider: React.FC = ({ children }) => {
 				addTodo,
 				addingNew,
 				deleteTodo,
+				filterItems,
+				setFilter,
 				toggleAddingNew,
 				toggleTodo,
 			}}

@@ -1,3 +1,10 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "task": "test",
+      "completed": false,
+      "dueDate": "",
+      "id": "fd53ceb3-07f2-4a5b-bb47-f32f9f52c0b1"
+    }
+  ]
 }

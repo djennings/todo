@@ -5,15 +5,25 @@ import Todo from './Todo';
 import styles from './TodoList.module.css';
 
 const TodoList: React.FC = () => {
-	const { todos } = useContext(TodoContext);
+	const { filterItems, todos } = useContext(TodoContext);
 	return (
 		<div className={`${styles.listContainer}`}>
 			<h1 className={`${styles.title}`}>Todo's:</h1>
 			<div className={`${styles.wrapper}`}>
 				<ul className={`${styles.todoList}`}>
-					{todos.map((todo: ITodo) => {
+					{todos.reduce((filtered: JSX.Element[], todo: ITodo) => {
+						if (filterItems === 'all') {
+							filtered.push(<Todo key={todo.id} item={todo} />);
+						} else if (filterItems === 'completed' && todo.completed) {
+							filtered.push(<Todo key={todo.id} item={todo} />);
+						} else if (filterItems === 'incomplete' && !todo.completed) {
+							filtered.push(<Todo key={todo.id} item={todo} />);
+						}
+						return filtered;
+					}, [])}
+					{/* {todos.map((todo: ITodo) => {
 						return <Todo key={todo.id} item={todo} />;
-					})}
+					})} */}
 				</ul>
 			</div>
 		</div>

@@ -21,7 +21,6 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 		deleteTodo(item.id);
 	};
 
-	console.log(item.completed);
 	return (
 		<li className={`${styles.lineItem}`}>
 			<span
