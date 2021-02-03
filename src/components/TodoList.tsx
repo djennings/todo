@@ -21,9 +21,6 @@ const TodoList: React.FC = () => {
 						}
 						return filtered;
 					}, [])}
-					{/* {todos.map((todo: ITodo) => {
-						return <Todo key={todo.id} item={todo} />;
-					})} */}
 				</ul>
 			</div>
 		</div>

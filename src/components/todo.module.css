@@ -25,6 +25,10 @@
 	position: relative;
 }
 
+.lineItem:last-of-type {
+	border-bottom-width: 0;
+}
+
 .todo {
 	cursor: pointer;
 	font-size: 1.1rem;

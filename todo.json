@@ -5,6 +5,18 @@
       "completed": true,
       "dueDate": "",
       "id": "fd53ceb3-07f2-4a5b-bb47-f32f9f52c0b1"
+    },
+    {
+      "task": "Finish this",
+      "completed": false,
+      "dueDate": "",
+      "id": "91866364-6343-480e-ba42-1c095ce8a057"
+    },
+    {
+      "task": "Make a new list",
+      "completed": false,
+      "dueDate": "",
+      "id": "2e9bd97b-77d5-4aa7-95ac-cc5e642da4d8"
     }
   ]
 }
