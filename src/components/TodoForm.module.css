@@ -1,6 +1,6 @@
 .form {
 	background-color: white;
-	border: 1px solid black;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 	height: 50%;
 	left: 50%;
 	padding: 10px 25px;
