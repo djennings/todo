@@ -7,7 +7,7 @@
 	position: absolute;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 50%;
+	width: 60%;
 }
 
 .form form {
@@ -17,7 +17,6 @@
 
 .label {
 	left: 0;
-	position: absolute;
 }
 
 .input {
@@ -27,8 +26,13 @@
 }
 
 .lineItem {
+	margin-bottom: 25px;
 	position: relative;
 	width: 100%;
+}
+
+.lineItem:last-of-type {
+	margin-bottom: 0;
 }
 
 .buttons {

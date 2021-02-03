@@ -19,7 +19,7 @@ const Actions: React.FC = () => {
 			</button>
 			<div className={`${styles.filter}`}>
 				<div>
-					<label className={`${styles.label}`}>
+					<label>
 						<input
 							onChange={handleFilterChange}
 							type="radio"
@@ -31,7 +31,7 @@ const Actions: React.FC = () => {
 					</label>
 				</div>
 				<div>
-					<label className={`${styles.label}`}>
+					<label>
 						<input
 							onChange={handleFilterChange}
 							type="radio"
@@ -43,7 +43,7 @@ const Actions: React.FC = () => {
 					</label>
 				</div>
 				<div>
-					<label className={`${styles.label}`}>
+					<label>
 						<input
 							onChange={handleFilterChange}
 							type="radio"

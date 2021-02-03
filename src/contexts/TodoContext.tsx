@@ -24,6 +24,7 @@ const TodoContextProvider: React.FC = ({ children }) => {
 				});
 		}
 		fetchData();
+		return () => {};
 	}, [url]);
 
 	const addTodo = (todo: ITodo) => {

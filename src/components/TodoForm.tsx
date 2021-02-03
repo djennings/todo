@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
 import { ITodo } from '../todo.d';
 import { v4 as uuid } from 'uuid';
@@ -10,6 +10,11 @@ const AddTodo = () => {
 	const initialState: NewTodo = { task: '', completed: false, dueDate: '' };
 	const { addTodo, toggleAddingNew } = useContext(TodoContext);
 	const [newTodo, setNewTodo] = useState<NewTodo>(initialState);
+	const nameRef = useCallback((node) => {
+		if (node !== null) {
+			node.focus();
+		}
+	}, []);
 
 	const handleAdd = (e: any) => {
 		e.preventDefault();
@@ -23,6 +28,39 @@ const AddTodo = () => {
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.name === 'dueDate') {
+			const val = e.target.value;
+			if (val.length > 10) {
+				setNewTodo((prevTodo) => Object.assign({}, prevTodo, { dueDate: '' }));
+				return;
+			}
+			if (val.length === 10) {
+				const parts = val.split('/');
+				if (
+					parts.length !== 3 ||
+					isNaN(parseInt(parts[0])) ||
+					isNaN(parseInt(parts[1])) ||
+					isNaN(parseInt(parts[2]))
+				) {
+					setNewTodo((prevTodo) =>
+						Object.assign({}, prevTodo, { dueDate: '' })
+					);
+					return;
+				} else {
+					const d = new Date(
+						parseInt(parts[0]),
+						parseInt(parts[1]),
+						parseInt(parts[2])
+					);
+					if (isNaN(d.getTime())) {
+						setNewTodo((prevTodo) =>
+							Object.assign({}, prevTodo, { dueDate: '' })
+						);
+						return;
+					}
+				}
+			}
+		}
 		setNewTodo((prevTodo) =>
 			Object.assign({}, prevTodo, { [e.target.name]: e.target.value })
 		);
@@ -38,7 +76,7 @@ const AddTodo = () => {
 	return (
 		<div className={`${styles.form}`}>
 			<h2>New Task</h2>
-			<form onSubmit={handleAdd}>
+			<form onSubmit={handleAdd} autoComplete="off">
 				<div className={`${styles.lineItem}`}>
 					<label className={`${styles.label}`} htmlFor="name">
 						New Task Label:
@@ -49,6 +87,20 @@ const AddTodo = () => {
 						id="name"
 						name="task"
 						onChange={handleChange}
+						ref={nameRef}
+					/>
+				</div>
+				<div className={`${styles.lineItem}`}>
+					<label className={`${styles.label}`} htmlFor="dueDate">
+						Due Date (Optional):
+					</label>
+					<input
+						className={`${styles.input}`}
+						value={newTodo.dueDate}
+						id="dueDate"
+						name="dueDate"
+						onChange={handleChange}
+						placeholder="YYYY/MM/DD"
 					/>
 				</div>
 				<div className={`${styles.buttons}`}>

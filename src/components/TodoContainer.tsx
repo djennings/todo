@@ -17,7 +17,7 @@ const TodoContainer: React.FC = () => {
 			</div>
 			{addingNew ? (
 				<>
-					<div className={`${styles.skrim}`}>Test</div>
+					<div className={`${styles.skrim}`}></div>
 					<TodoForm />
 				</>
 			) : null}
