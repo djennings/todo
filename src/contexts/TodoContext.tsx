@@ -17,10 +17,6 @@ const TodoContextProvider: React.FC = ({ children }) => {
 	useEffect(() => {
 		async function fetchData() {
 			const response = await axios.get(url);
-			// .then((response) => response.data)
-			// .then((data) => {
-			// 	setTodos(data);
-			// });
 			setTodos(() => response.data);
 		}
 		fetchData();

@@ -26,7 +26,7 @@
 		"start": "react-scripts start",
 		"start:server": "npm run server & npm run start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"test": "PRINT_DEBUG_LIMIT=150000 && react-scripts test",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {

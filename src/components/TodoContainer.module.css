@@ -1,6 +1,7 @@
 .container {
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-	margin-bottom: 25px;
+	height: 75vh;
+	margin: 25px 0;
 	position: relative;
 	width: 50%;
 }

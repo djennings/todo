@@ -1,3 +1,16 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "task": "Create some new Todo's!",
+      "completed": false,
+      "dueDate": "",
+      "id": "c3251e64-6c1e-4309-b6f0-821da0beae87"
+    },
+    {
+      "task": "Watch a video on RTL and Enzyme",
+      "completed": false,
+      "dueDate": "",
+      "id": "d86ce1f4-89a2-41b1-9a9a-44bbe8834f5b"
+    }
+  ]
 }

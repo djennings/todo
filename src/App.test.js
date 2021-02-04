@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
 import TodoContextProvider from './contexts/TodoContext';
 import axios from 'axios';
@@ -24,10 +24,7 @@ describe('Given that the main container is rendered', () => {
 			</TodoContextProvider>
 		);
 
-		//  wait for the intial data load to occur before beginning tests
-		await waitFor(() =>
-			expect(screen.getByText(/Finish writing this app/i)).toBeInTheDocument()
-		);
+		await screen.findByText(/Finish writing this app/i);
 	});
 	it('renders new (add), show complete and show active controls and the header', () => {
 		expect(screen.getByRole('button', { name: /new/i })).toBeInTheDocument();
