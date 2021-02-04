@@ -23,13 +23,6 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 
 	return (
 		<li className={`${styles.lineItem}`}>
-			<span
-				className={classnames(`${styles.todo}`, {
-					[styles.completed]: item.completed,
-				})}
-			>
-				{item.task}
-			</span>
 			<img
 				alt="delete"
 				className={`${styles.deleteIcon}`}
@@ -49,6 +42,14 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 					item.completed ? 'not completed' : 'completed'
 				}`}
 			/>
+			<span
+				className={classnames(`${styles.todo}`, {
+					[styles.completed]: item.completed,
+				})}
+			>
+				{item.task}
+			</span>
+			<span>{item.dueDate}</span>
 		</li>
 	);
 };
