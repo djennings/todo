@@ -21,6 +21,14 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 		deleteTodo(item.id);
 	};
 
+	const calcPastDue = (date: string) => {
+		const d = new Date(date);
+		const t = new Date();
+		return d > t;
+	};
+
+	const pastDue = calcPastDue(item.dueDate);
+
 	return (
 		<li className={`${styles.lineItem}`}>
 			<img
@@ -49,7 +57,9 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 			>
 				{item.task}
 			</span>
-			<span>{item.dueDate}</span>
+			<span className={classnames({ [styles.pastDue]: pastDue })}>
+				{item.dueDate}
+			</span>
 		</li>
 	);
 };

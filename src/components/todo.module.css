@@ -31,6 +31,10 @@
 	border-bottom-width: 0;
 }
 
+.pastDue {
+	color: #f00;
+}
+
 .todo {
 	font-size: 1.1rem;
 }
