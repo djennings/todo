@@ -15,13 +15,13 @@ const TodoContextProvider: React.FC = ({ children }) => {
 	const url: string = `${API_URL}/todos/`;
 
 	useEffect(() => {
-		function fetchData() {
-			axios
-				.get(url)
-				.then((response) => response.data)
-				.then((data) => {
-					setTodos(data);
-				});
+		async function fetchData() {
+			const response = await axios.get(url);
+			// .then((response) => response.data)
+			// .then((data) => {
+			// 	setTodos(data);
+			// });
+			setTodos(() => response.data);
 		}
 		fetchData();
 		return () => {};
