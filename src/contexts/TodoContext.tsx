@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { ITodo } from '../todo.d';
+import { Filter, ITodo } from '../todo.d';
 
 const API_URL = 'http://localhost:8000';
 
@@ -11,7 +11,7 @@ const TodoContextProvider: React.FC = ({ children }) => {
 
 	const [todos, setTodos] = useState<ITodo[]>(initialState);
 	const [addingNew, setAddingNew] = useState<boolean>(false);
-	const [filterItems, setFilterItems] = useState<string>('all');
+	const [filterItems, setFilterItems] = useState<string>(Filter.All);
 	const url: string = `${API_URL}/todos/`;
 
 	useEffect(() => {

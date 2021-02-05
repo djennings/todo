@@ -4,3 +4,9 @@ export interface ITodo {
 	completed: boolean;
 	dueDate: string;
 }
+
+export enum Filter {
+	All = 'ALL',
+	Completed = 'COMPLETED',
+	Incomplete = 'INCOMPLETE',
+}

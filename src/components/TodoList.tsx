@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
-import { ITodo } from '../todo.d';
+import { Filter, ITodo } from '../todo.d';
 import Todo from './Todo';
 import styles from './TodoList.module.css';
 
@@ -8,11 +8,11 @@ const TodoList: React.FC = () => {
 	const { filterItems, todos } = useContext(TodoContext);
 	const buildList = () => {
 		const list = todos.reduce((filtered: JSX.Element[], todo: ITodo) => {
-			if (filterItems === 'all') {
+			if (filterItems === Filter.All) {
 				filtered.push(<Todo key={todo.id} item={todo} />);
-			} else if (filterItems === 'completed' && todo.completed) {
+			} else if (filterItems === Filter.Completed && todo.completed) {
 				filtered.push(<Todo key={todo.id} item={todo} />);
-			} else if (filterItems === 'incomplete' && !todo.completed) {
+			} else if (filterItems === Filter.Incomplete && !todo.completed) {
 				filtered.push(<Todo key={todo.id} item={todo} />);
 			}
 			return filtered;

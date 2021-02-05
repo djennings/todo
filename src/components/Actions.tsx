@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
 import styles from './Actions.module.css';
+import { Filter } from '../todo.d';
 
 const Actions: React.FC = () => {
 	const { filterItems, setFilter, toggleAddingNew } = useContext(TodoContext);
@@ -24,8 +25,8 @@ const Actions: React.FC = () => {
 							onChange={handleFilterChange}
 							type="radio"
 							name="filter"
-							value="all"
-							checked={filterItems === 'all'}
+							value={Filter.All}
+							checked={filterItems === Filter.All}
 						/>
 						Display All
 					</label>
@@ -36,8 +37,8 @@ const Actions: React.FC = () => {
 							onChange={handleFilterChange}
 							type="radio"
 							name="filter"
-							value="completed"
-							checked={filterItems === 'completed'}
+							value={Filter.Completed}
+							checked={filterItems === Filter.Completed}
 						/>
 						Completed
 					</label>
@@ -48,8 +49,8 @@ const Actions: React.FC = () => {
 							onChange={handleFilterChange}
 							type="radio"
 							name="filter"
-							value="incomplete"
-							checked={filterItems === 'incomplete'}
+							value={Filter.Incomplete}
+							checked={filterItems === Filter.Incomplete}
 						/>
 						Not Complete
 					</label>

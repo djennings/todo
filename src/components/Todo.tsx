@@ -57,7 +57,12 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 			>
 				{item.task}
 			</span>
-			<span className={classnames({ [styles.pastDue]: pastDue })}>
+			<span
+				className={classnames({
+					[styles.pastDue]: pastDue && !item.completed,
+					[styles.completed]: item.completed,
+				})}
+			>
 				{item.dueDate}
 			</span>
 		</li>
