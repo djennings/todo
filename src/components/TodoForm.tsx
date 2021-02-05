@@ -16,18 +16,30 @@ const AddTodo = () => {
 	const initialState: NewTodo = { task: '', completed: false, dueDate: '' };
 	const { addingNew, addTodo, toggleAddingNew } = useContext(TodoContext);
 	const [newTodo, setNewTodo] = useState<NewTodo>(initialState);
-	const { errors, handleSubmit, register, reset } = useForm();
+	const { clearErrors, errors, handleSubmit, register, reset } = useForm({
+		reValidateMode: 'onSubmit',
+	});
 	const nameRef = useCallback((node) => {
-		if (node !== null) {
-			node.focus();
-		}
+		// if (node !== null) {
+		// 	node.focus();
+		// }
 	}, []);
 
 	const handleAdd = (e: IFormData) => {
-		addTodo({ ...newTodo, id: uuid() });
+		let dueDate = newTodo.dueDate;
+		if (dueDate.length) {
+			const date = new Date(dueDate);
+			const month = date.getMonth() + 1;
+			const day = date.getDate();
+			const year = date.getFullYear();
+			dueDate = `${year}/${month}/${day}`;
+		}
+		const data = { ...newTodo, dueDate };
+		addTodo({ ...data, id: uuid() });
 		toggleAddingNew();
 		setNewTodo(() => initialState);
 		reset();
+		clearErrors();
 	};
 
 	const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,9 +47,11 @@ const AddTodo = () => {
 		toggleAddingNew();
 		setNewTodo(() => initialState);
 		reset();
+		clearErrors();
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		clearErrors([e.target.name]);
 		setNewTodo((prevTodo) =>
 			Object.assign({}, prevTodo, { [e.target.name]: e.target.value })
 		);
@@ -47,6 +61,7 @@ const AddTodo = () => {
 		e.preventDefault();
 		setNewTodo(() => initialState);
 		reset();
+		clearErrors();
 	};
 
 	const mergeRefs = (...refs: Array<any>) => {
@@ -65,32 +80,14 @@ const AddTodo = () => {
 	};
 
 	const validateDate = (date: string) => {
+		console.log(date);
 		if (!date.length) {
 			return true;
 		}
-		if (date.length !== 10) {
+		if (isNaN(Date.parse(date))) {
 			return false;
 		}
-		if (date.length === 10) {
-			const parts = date.split('/');
-			if (
-				parts.length !== 3 ||
-				isNaN(parseInt(parts[0])) ||
-				isNaN(parseInt(parts[1])) ||
-				isNaN(parseInt(parts[2]))
-			) {
-				return false;
-			} else {
-				const d = new Date(
-					parseInt(parts[0]),
-					parseInt(parts[1]),
-					parseInt(parts[2])
-				);
-				if (isNaN(d.getTime())) {
-					return false;
-				}
-			}
-		}
+
 		return true;
 	};
 

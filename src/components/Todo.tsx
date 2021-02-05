@@ -24,7 +24,7 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 	const calcPastDue = (date: string) => {
 		const d = new Date(date);
 		const t = new Date();
-		return d > t;
+		return d < t;
 	};
 
 	const pastDue = calcPastDue(item.dueDate);
