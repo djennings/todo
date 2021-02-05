@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ITodo } from '../todo.d';
 import { TodoContext } from '../contexts/TodoContext';
 import classnames from 'classnames';
-import styles from './todo.module.css';
+import styles from './Todo.module.css';
 import deleteIcon from '../delete.svg';
 import checkmark from '../checkmark-solid.svg';
 

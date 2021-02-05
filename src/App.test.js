@@ -5,19 +5,20 @@ import TodoContextProvider from './contexts/TodoContext';
 import axios from 'axios';
 
 jest.mock('axios');
+const initialData = {
+	data: [
+		{
+			task: 'Finish writing this app',
+			completed: false,
+			dueDate: '',
+			id: '6587c285-10b7-41ee-8b2e-9e0cdc4ce62c',
+		},
+	],
+};
 
 describe('Given that the main container is rendered', () => {
 	beforeEach(async () => {
-		axios.get.mockResolvedValue({
-			data: [
-				{
-					task: 'Finish writing this app',
-					completed: false,
-					dueDate: '',
-					id: '6587c285-10b7-41ee-8b2e-9e0cdc4ce62c',
-				},
-			],
-		});
+		axios.get.mockResolvedValue(initialData);
 		render(
 			<TodoContextProvider>
 				<App />

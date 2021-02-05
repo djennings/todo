@@ -3,6 +3,7 @@
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 	height: 50%;
 	left: 50%;
+	min-height: 250px;
 	padding: 10px 25px;
 	position: absolute;
 	top: 50%;
