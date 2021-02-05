@@ -24,7 +24,6 @@ const AddTodo = () => {
 	}, []);
 
 	const handleAdd = (e: IFormData) => {
-		console.log('data', e);
 		addTodo({ ...newTodo, id: uuid() });
 		toggleAddingNew();
 		setNewTodo(() => initialState);
@@ -51,7 +50,6 @@ const AddTodo = () => {
 	};
 
 	const mergeRefs = (...refs: Array<any>) => {
-		console.log(...refs);
 		const filteredRefs = refs.filter(Boolean);
 		if (!filteredRefs.length) return null;
 		if (filteredRefs.length === 0) return filteredRefs[0];
