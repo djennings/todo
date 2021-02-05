@@ -5,6 +5,7 @@ import TodoContextProvider from './contexts/TodoContext';
 import axios from 'axios';
 
 jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 const initialData = {
 	data: [
 		{
@@ -18,7 +19,7 @@ const initialData = {
 
 describe('Given that the main container is rendered', () => {
 	beforeEach(async () => {
-		axios.get.mockResolvedValue(initialData);
+		mockedAxios.get.mockResolvedValue(initialData);
 		render(
 			<TodoContextProvider>
 				<App />
