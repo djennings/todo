@@ -3,12 +3,13 @@ import { TodoContext } from '../contexts/TodoContext';
 import { ITodo } from '../todo.d';
 import { v4 as uuid } from 'uuid';
 import styles from './TodoForm.module.css';
+import classnames from 'classnames';
 
 type NewTodo = Omit<ITodo, 'id'>;
 
 const AddTodo = () => {
 	const initialState: NewTodo = { task: '', completed: false, dueDate: '' };
-	const { addTodo, toggleAddingNew } = useContext(TodoContext);
+	const { addingNew, addTodo, toggleAddingNew } = useContext(TodoContext);
 	const [newTodo, setNewTodo] = useState<NewTodo>(initialState);
 	const nameRef = useCallback((node) => {
 		if (node !== null) {
@@ -74,7 +75,13 @@ const AddTodo = () => {
 	const disabled = newTodo.task.length === 0;
 
 	return (
-		<div className={`${styles.form}`}>
+		<div
+			className={classnames(
+				`${styles.form}`,
+				{ [styles.visible]: addingNew },
+				{ [styles.hidden]: !addingNew }
+			)}
+		>
 			<h2>New Task</h2>
 			<form onSubmit={handleAdd} autoComplete="off">
 				<div className={`${styles.lineItem}`}>

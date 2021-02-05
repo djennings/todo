@@ -7,7 +7,16 @@
 	position: absolute;
 	top: 50%;
 	transform: translate(-50%, -50%);
+	transition: 0.3s all ease-in-out;
 	width: 60%;
+}
+
+.hidden {
+	opacity: 0;
+}
+
+.visible {
+	opacity: 1;
 }
 
 .form form {
