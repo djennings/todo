@@ -9,7 +9,7 @@ import classnames from 'classnames';
 
 type NewTodo = Omit<ITodo, 'id'>;
 
-const AddTodo = () => {
+const AddTodo: React.FC = () => {
 	const initialState: NewTodo = { task: '', completed: false, dueDate: '' };
 	const { addingNew, addTodo, toggleAddingNew } = useContext(TodoContext);
 	const [newTodo, setNewTodo] = useState<NewTodo>(initialState);
