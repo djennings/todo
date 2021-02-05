@@ -17,14 +17,6 @@
 	width: 60%;
 }
 
-.hidden {
-	opacity: 0;
-}
-
-.visible {
-	opacity: 1;
-}
-
 .form form {
 	height: calc(100% - 100px);
 	position: relative;

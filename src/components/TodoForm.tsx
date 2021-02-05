@@ -1,38 +1,46 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
 import { ITodo } from '../todo.d';
 import { v4 as uuid } from 'uuid';
 import { useForm } from 'react-hook-form';
+import useMergedRef from '@react-hook/merged-ref';
 import styles from './TodoForm.module.css';
 import classnames from 'classnames';
 
 type NewTodo = Omit<ITodo, 'id'>;
-interface IFormData {
-	task: string;
-	dueDate: string;
-}
 
 const AddTodo = () => {
 	const initialState: NewTodo = { task: '', completed: false, dueDate: '' };
 	const { addingNew, addTodo, toggleAddingNew } = useContext(TodoContext);
 	const [newTodo, setNewTodo] = useState<NewTodo>(initialState);
-	const { clearErrors, errors, handleSubmit, register, reset } = useForm({
-		reValidateMode: 'onSubmit',
-	});
-	const nameRef = useCallback((node) => {
-		// if (node !== null) {
-		// 	node.focus();
-		// }
+	const [fadeStyle, setFadeStyle] = useState({ opacity: 0 });
+	const { clearErrors, errors, handleSubmit, register, reset } = useForm();
+
+	const nameRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (nameRef && nameRef.current) {
+			nameRef.current.focus();
+		}
+		setFadeStyle({ opacity: 1 });
 	}, []);
 
-	const handleAdd = (e: IFormData) => {
+	const registerNameRef = useMergedRef(nameRef, register);
+
+	const formatDate = (date: string): string => {
+		const newDate = new Date(date);
+		const month = (newDate.getMonth() + 1).toString();
+		const day = newDate.getDate().toString();
+		const year = newDate.getFullYear();
+		return `${year}/${month.length === 1 ? 0 + month : month}/${
+			day.length === 1 ? 0 + day : day
+		}`;
+	};
+
+	const handleAdd = () => {
 		let dueDate = newTodo.dueDate;
 		if (dueDate.length) {
-			const date = new Date(dueDate);
-			const month = date.getMonth() + 1;
-			const day = date.getDate();
-			const year = date.getFullYear();
-			dueDate = `${year}/${month}/${day}`;
+			dueDate = formatDate(dueDate);
 		}
 		const data = { ...newTodo, dueDate };
 		addTodo({ ...data, id: uuid() });
@@ -64,23 +72,7 @@ const AddTodo = () => {
 		clearErrors();
 	};
 
-	const mergeRefs = (...refs: Array<any>) => {
-		const filteredRefs = refs.filter(Boolean);
-		if (!filteredRefs.length) return null;
-		if (filteredRefs.length === 0) return filteredRefs[0];
-		return (inst: any) => {
-			for (const ref of filteredRefs) {
-				if (typeof ref === 'function') {
-					ref(inst);
-				} else if (ref) {
-					ref.current = inst;
-				}
-			}
-		};
-	};
-
-	const validateDate = (date: string) => {
-		console.log(date);
+	const validateDate = (date: string): boolean => {
 		if (!date.length) {
 			return true;
 		}
@@ -100,6 +92,7 @@ const AddTodo = () => {
 				{ [styles.visible]: addingNew },
 				{ [styles.hidden]: !addingNew }
 			)}
+			style={fadeStyle}
 		>
 			<h2>New Task</h2>
 			<form onSubmit={handleSubmit(handleAdd)} autoComplete="off">
@@ -113,7 +106,7 @@ const AddTodo = () => {
 						id="name"
 						name="task"
 						onChange={handleChange}
-						ref={mergeRefs(register, nameRef)}
+						ref={registerNameRef}
 					/>
 				</div>
 				<div className={`${styles.lineItem}`}>

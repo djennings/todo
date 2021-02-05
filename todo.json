@@ -11,6 +11,12 @@
       "completed": false,
       "dueDate": "2021/01/31",
       "id": "07a53a08-231c-4f3e-b488-13bdbc80a9ae"
+    },
+    {
+      "task": "Test date formatting",
+      "completed": false,
+      "dueDate": "2021/02/09",
+      "id": "8bbf975d-893e-4a4e-acb0-4b79be1fe50a"
     }
   ]
 }
