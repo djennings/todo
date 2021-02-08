@@ -1,10 +1,16 @@
 {
-  "todos": [
-    {
-      "task": "x",
-      "completed": false,
-      "dueDate": "2021/12/21",
-      "id": "fbcc0aae-5c68-41b4-974a-f80ccc06cc1d"
-    }
-  ]
+	"todos": [
+		{
+			"task": "Add the POST and DELETE",
+			"completed": false,
+			"dueDate": "",
+			"id": "b8a4f76b-196d-4275-a15d-81bc3a91d051"
+		},
+		{
+			"task": "Move mocks to new file",
+			"completed": false,
+			"dueDate": "",
+			"id": "4e749692-b4c3-4f89-a642-1ff821e5af38"
+		}
+	]
 }
