@@ -39,9 +39,9 @@ const TodoContextProvider: React.FC = ({ children }) => {
 	};
 
 	const doDelete = async (id: string) => {
-		// await fetch(`${url}/${id}`, {
-		// 	method: 'DELETE',
-		// });
+		await fetch(`${url}/${id}`, {
+			method: 'DELETE',
+		});
 	};
 
 	const deleteTodo = async (id: string) => {
@@ -68,13 +68,13 @@ const TodoContextProvider: React.FC = ({ children }) => {
 		const newTodos = todos.map((todo) => {
 			if (todo.id === id) {
 				const newTodo = { ...todo, completed: !todo.completed };
-				// fetch(`${url}/${todo.id}`, {
-				// 	method: 'PUT',
-				// 	headers: {
-				// 		'Content-type': 'application/json; charset=UTF-8',
-				// 	},
-				// 	body: JSON.stringify(newTodo),
-				// });
+				fetch(`${url}/${todo.id}`, {
+					method: 'PUT',
+					headers: {
+						'Content-type': 'application/json; charset=UTF-8',
+					},
+					body: JSON.stringify(newTodo),
+				});
 				return newTodo;
 			} else {
 				return todo;
