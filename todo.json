@@ -1,22 +1,10 @@
 {
   "todos": [
     {
-      "task": "Watch a video on RTL and Enzyme",
+      "task": "x",
       "completed": false,
-      "dueDate": "2021/02/28",
-      "id": "41a536d2-c929-4bd0-b2d5-33aad49f50ce"
-    },
-    {
-      "task": "Create some new Todo's!",
-      "completed": false,
-      "dueDate": "2021/01/31",
-      "id": "07a53a08-231c-4f3e-b488-13bdbc80a9ae"
-    },
-    {
-      "task": "Test date formatting",
-      "completed": false,
-      "dueDate": "2021/02/09",
-      "id": "8bbf975d-893e-4a4e-acb0-4b79be1fe50a"
+      "dueDate": "2021/12/21",
+      "id": "fbcc0aae-5c68-41b4-974a-f80ccc06cc1d"
     }
   ]
 }

@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
 import { Filter, ITodo } from '../todo.d';
 
 const API_URL = 'http://localhost:8000';
@@ -12,29 +11,45 @@ const TodoContextProvider: React.FC = ({ children }) => {
 	const [todos, setTodos] = useState<ITodo[]>(initialState);
 	const [addingNew, setAddingNew] = useState<boolean>(false);
 	const [filterItems, setFilterItems] = useState<string>(Filter.All);
+	const [loading, setLoading] = useState(true);
 	const url: string = `${API_URL}/todos/`;
 
 	useEffect(() => {
 		async function fetchData() {
-			const response = await axios.get(url);
-			setTodos(() => response.data);
+			const response = await fetch(url);
+			const data = await response.json();
+			setTodos(() => data);
 		}
 		fetchData();
+		setLoading(false);
 		return () => {};
 	}, [url]);
 
-	const addTodo = (todo: ITodo) => {
-		axios.post(url, todo).then(() => {
-			setTodos((prevTodos) => [...prevTodos, todo]);
+	const addTodo = async (todo: ITodo) => {
+		const body = JSON.stringify(todo);
+		await fetch(url, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body,
+		});
+		setTodos((prevTodos) => [...prevTodos, todo]);
+	};
+
+	const doDelete = async (id: string) => {
+		await fetch(`${url}/${id}`, {
+			method: 'DELETE',
 		});
 	};
 
-	const deleteTodo = (id: string) => {
+	const deleteTodo = async (id: string) => {
 		const newTodos = todos.filter((todo) => {
 			if (todo.id !== id) {
 				return todo;
 			} else {
-				axios.delete(`${url}/${todo.id}`);
+				doDelete(todo.id);
 				return false;
 			}
 		});
@@ -53,7 +68,13 @@ const TodoContextProvider: React.FC = ({ children }) => {
 		const newTodos = todos.map((todo) => {
 			if (todo.id === id) {
 				const newTodo = { ...todo, completed: !todo.completed };
-				axios.put(`${url}/${todo.id}`, newTodo).then(() => {});
+				fetch(`${url}/${todo.id}`, {
+					method: 'PUT',
+					headers: {
+						'Content-type': 'application/json; charset=UTF-8',
+					},
+					body: JSON.stringify(newTodo),
+				});
 				return newTodo;
 			} else {
 				return todo;
@@ -70,6 +91,7 @@ const TodoContextProvider: React.FC = ({ children }) => {
 				addingNew,
 				deleteTodo,
 				filterItems,
+				loading,
 				setFilter,
 				toggleAddingNew,
 				toggleTodo,

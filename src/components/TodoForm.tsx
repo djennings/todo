@@ -92,6 +92,7 @@ const AddTodo: React.FC = () => {
 				{ [styles.visible]: addingNew },
 				{ [styles.hidden]: !addingNew }
 			)}
+			role="dialog"
 			style={fadeStyle}
 		>
 			<h2>New Task</h2>

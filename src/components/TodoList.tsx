@@ -5,7 +5,7 @@ import Todo from './Todo';
 import styles from './TodoList.module.css';
 
 const TodoList: React.FC = () => {
-	const { filterItems, todos } = useContext(TodoContext);
+	const { filterItems, loading, todos } = useContext(TodoContext);
 	const buildList = () => {
 		const list = todos.reduce((filtered: JSX.Element[], todo: ITodo) => {
 			if (filterItems === Filter.All) {
@@ -26,7 +26,9 @@ const TodoList: React.FC = () => {
 		<div className={`${styles.listContainer}`}>
 			<h1 className={`${styles.title}`}>Todo's:</h1>
 			<div className={`${styles.wrapper}`}>
-				<ul className={`${styles.todoList}`}>{buildList()}</ul>
+				<ul className={`${styles.todoList}`}>
+					{loading ? <li>Loading...</li> : buildList()}
+				</ul>
 			</div>
 		</div>
 	);
