@@ -24,7 +24,7 @@ describe('Given that the main container is rendered', () => {
 			dueDate: '',
 			id: '36850f6f-558d-4c6c-83c7-9cbf79a66da8',
 		});
-		fetchMock.put('express:http://localhost:8000/todos/:id', {
+		fetchMock.put('*', {
 			task: 'test',
 			completed: false,
 			dueDate: '',
@@ -137,5 +137,31 @@ describe('Actions', () => {
 				screen.queryByText(/Sample Task 1/i);
 			})
 		).not.toBeTruthy();
+	});
+
+	it('updates the completed status', async () => {
+		userEvent.click(screen.getByRole('button', { name: /new/i }));
+		userEvent.type(
+			screen.getByRole('textbox', {
+				name: /new task label:/i,
+			}),
+			'Sample Task 1'
+		);
+		userEvent.click(screen.getByRole('button', { name: /add/i }));
+		expect(await screen.findByText(/Sample Task 1/i)).toBeInTheDocument();
+		const newItemText = await screen.findByRole('listitem');
+		expect(newItemText).toBeTruthy();
+
+		const completeButton = screen.getByRole('button', {
+			name: /mark to do as completed/i,
+		});
+
+		expect(completeButton).toBeTruthy();
+
+		userEvent.click(completeButton);
+		const unCompleteButton = screen.getByRole('button', {
+			name: /Mark to do as not completed/i,
+		});
+		expect(unCompleteButton).toBeTruthy();
 	});
 });

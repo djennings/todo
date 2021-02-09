@@ -38,19 +38,21 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 			>
 				<img alt="delete" className={`${styles.deleteIcon}`} src={deleteIcon} />
 			</button>
-
-			<img
-				alt="completed"
-				className={classnames(`${styles.checkmarkIcon}`, {
-					[styles.completed]: item.completed,
-				})}
+			<button
+				className={`${styles.actionButton}`}
 				onClick={handleCompleted}
-				role="button"
-				src={checkmark}
 				title={`Mark to do as ${
 					item.completed ? 'not completed' : 'completed'
 				}`}
-			/>
+			>
+				<img
+					alt="completed"
+					className={classnames(`${styles.checkmarkIcon}`, {
+						[styles.completed]: item.completed,
+					})}
+					src={checkmark}
+				/>
+			</button>
 			<span
 				className={classnames(`${styles.todo}`, {
 					[styles.completed]: item.completed,

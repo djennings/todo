@@ -2,7 +2,7 @@
   "todos": [
     {
       "task": "Add the POST and DELETE",
-      "completed": false,
+      "completed": true,
       "dueDate": "",
       "id": "b8a4f76b-196d-4275-a15d-81bc3a91d051"
     },
