@@ -31,13 +31,13 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 
 	return (
 		<li className={`${styles.lineItem}`}>
-			<img
-				alt="delete"
-				className={`${styles.deleteIcon}`}
+			<button
+				className={`${styles.actionButton}`}
 				onClick={handleDelete}
-				src={deleteIcon}
 				title="Delete to do"
-			/>
+			>
+				<img alt="delete" className={`${styles.deleteIcon}`} src={deleteIcon} />
+			</button>
 
 			<img
 				alt="completed"
@@ -45,6 +45,7 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 					[styles.completed]: item.completed,
 				})}
 				onClick={handleCompleted}
+				role="button"
 				src={checkmark}
 				title={`Mark to do as ${
 					item.completed ? 'not completed' : 'completed'

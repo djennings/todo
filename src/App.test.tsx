@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 import TodoContextProvider from './contexts/TodoContext';
@@ -24,6 +24,13 @@ describe('Given that the main container is rendered', () => {
 			dueDate: '',
 			id: '36850f6f-558d-4c6c-83c7-9cbf79a66da8',
 		});
+		fetchMock.put('express:http://localhost:8000/todos/:id', {
+			task: 'test',
+			completed: false,
+			dueDate: '',
+			id: '36850f6f-558d-4c6c-83c7-9cbf79a66da8',
+		});
+		fetchMock.delete('*', {});
 		render(
 			<TodoContextProvider>
 				<App />
@@ -66,11 +73,11 @@ describe('Actions', () => {
 		const newBtn = screen.getByRole('button', { name: /new/i });
 		userEvent.click(newBtn);
 
+		expect(screen.queryByRole('dialog')).toBeInTheDocument();
+
 		const taskName = screen.getByRole('textbox', {
 			name: /new task label:/i,
 		});
-
-		expect(screen.queryByRole('dialog')).toBeInTheDocument();
 
 		userEvent.type(taskName, 'Sample Task 1');
 
@@ -107,5 +114,28 @@ describe('Actions', () => {
 
 		const newItemDueDate = await screen.findByText('2021/12/31');
 		expect(newItemDueDate).toBeInTheDocument();
+	});
+
+	it('deletes an existing task', async () => {
+		userEvent.click(screen.getByRole('button', { name: /new/i }));
+		userEvent.type(
+			screen.getByRole('textbox', {
+				name: /new task label:/i,
+			}),
+			'Sample Task 1'
+		);
+		userEvent.click(screen.getByRole('button', { name: /add/i }));
+		expect(await screen.findByText(/Sample Task 1/i)).toBeInTheDocument();
+		const newItemText = await screen.findByRole('listitem');
+		expect(newItemText).toBeTruthy();
+
+		const deleteButton = screen.getByRole('button', { name: /delete to do/i });
+		userEvent.click(deleteButton);
+
+		expect(
+			await waitFor(() => {
+				screen.queryByText(/Sample Task 1/i);
+			})
+		).not.toBeTruthy();
 	});
 });
