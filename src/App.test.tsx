@@ -33,8 +33,9 @@ const addNewTodo = async (
 	const addBtn = screen.getByRole('button', { name: /add/i });
 	userEvent.click(addBtn);
 
-	const newItemText = await env.findByText(taskLabel);
-	expect(newItemText).toBeInTheDocument();
+	try {
+		const newItemText = await env.findByText(taskLabel);
+	} catch (err) {}
 };
 
 describe('Given that the main container is rendered', () => {
@@ -91,6 +92,13 @@ describe('Actions', () => {
 
 		const newItemDueDate = await screen.findByText(todoDate1);
 		expect(newItemDueDate).toBeInTheDocument();
+	});
+
+	it('catches the error for an invalid date', async () => {
+		await addNewTodo(screen, todoLabel1, 'xxxxxx');
+
+		const dateErrorMessage = await screen.findByText(/invalid date/i);
+		expect(dateErrorMessage).toBeInTheDocument();
 	});
 
 	it('deletes an existing task', async () => {

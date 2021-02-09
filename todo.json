@@ -1,10 +1,10 @@
 {
   "todos": [
     {
-      "task": "test error conditions",
+      "task": "test the clear and cancel buttons on the form",
       "completed": false,
-      "dueDate": "2021/02/10",
-      "id": "c0c1ff11-97ff-4e38-bb1f-c755e698220f"
+      "dueDate": "",
+      "id": "d67a4b47-0854-4b59-8ed0-fcfa4ffafd68"
     }
   ]
 }
