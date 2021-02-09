@@ -29,6 +29,7 @@
 		"start:server": "npm run server & npm run start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
+		"test:coverage": "react-scripts test --coverage=true",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
