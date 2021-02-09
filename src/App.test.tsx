@@ -163,5 +163,12 @@ describe('Actions', () => {
 			name: /Mark to do as not completed/i,
 		});
 		expect(unCompleteButton).toBeTruthy();
+
+		userEvent.click(unCompleteButton);
+		expect(
+			screen.getByRole('button', {
+				name: /mark to do as completed/i,
+			})
+		).toBeTruthy();
 	});
 });
