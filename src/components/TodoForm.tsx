@@ -19,6 +19,7 @@ const AddTodo: React.FC = () => {
 	const nameRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
+		/* istanbul ignore next */
 		if (nameRef && nameRef.current) {
 			nameRef.current.focus();
 		}
