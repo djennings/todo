@@ -28,6 +28,7 @@
 		"start:server": "npm run server & npm run start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
+		"test:watch": "PRINT_DEBUG_LIMIT=150000 && npm run test --watch",
 		"test:coverage": "react-scripts test --coverage=true",
 		"eject": "react-scripts eject"
 	},

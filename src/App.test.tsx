@@ -34,7 +34,7 @@ const addNewTodo = async (
 	userEvent.click(addBtn);
 
 	try {
-		const newItemText = await env.findByText(taskLabel);
+		await env.findByText(taskLabel);
 	} catch (err) {}
 };
 
@@ -169,5 +169,46 @@ describe('Actions', () => {
 		expect(todoList.length).toBe(1);
 		expect(screen.queryByText(/Sample Task 1/i)).not.toBeInTheDocument();
 		expect(screen.getByText(/Sample Task 2/i)).toBeInTheDocument();
+	});
+
+	it('will cancel an add when cancel button clicked', () => {
+		const newBtn = screen.getByRole('button', { name: /new/i });
+		userEvent.click(newBtn);
+
+		expect(screen.getByRole('dialog')).toBeTruthy();
+
+		userEvent.click(screen.getByRole('button', { name: /cancel/i }));
+
+		expect(screen.queryByRole('dialog')).not.toBeTruthy();
+	});
+
+	it('will clear all fields when reset button clicked', () => {
+		const newBtn = screen.getByRole('button', { name: /new/i });
+		userEvent.click(newBtn);
+
+		const clearBtn = screen.getByRole('button', { name: /clear/i });
+
+		expect(clearBtn).toBeDisabled();
+
+		const taskName = screen.getByRole('textbox', {
+			name: /new task label:/i,
+		});
+
+		userEvent.type(taskName, todoLabel1);
+
+		expect(clearBtn).not.toBeDisabled();
+
+		const dateInput = screen.getByRole('textbox', {
+			name: /due date \(optional\):/i,
+		});
+		userEvent.type(dateInput, todoDate1);
+
+		expect(screen.getByDisplayValue(todoLabel1)).toBeTruthy();
+		expect(screen.getByDisplayValue(todoDate1)).toBeTruthy();
+
+		userEvent.click(screen.getByRole('button', { name: /clear/i }));
+
+		expect(screen.queryByDisplayValue(todoLabel1)).not.toBeTruthy();
+		expect(screen.queryByDisplayValue(todoDate1)).not.toBeTruthy();
 	});
 });
