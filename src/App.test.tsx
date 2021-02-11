@@ -8,6 +8,7 @@ import setupMocks from './utils/mock';
 const todoLabel1 = 'Sample Task 1';
 const todoLabel2 = 'Sample Task 2';
 const todoDate1 = '2021/12/31';
+const todoDate2 = '2020/9/1';
 
 const addNewTodo = async (
 	env: any,
@@ -49,6 +50,8 @@ describe('Given that the main container is rendered', () => {
 
 		await screen.findByRole(/listitem/i);
 	});
+
+	afterEach(() => {});
 	it(`renders 'new' button (add) and filter controls`, () => {
 		expect(screen.getByRole('button', { name: /new/i })).toBeInTheDocument();
 		expect(screen.getByLabelText(/completed/i)).toBeInTheDocument();
@@ -77,7 +80,7 @@ describe('Actions', () => {
 		await screen.findByRole(/listitem/i);
 	});
 
-	it('adds a new task with no date', async () => {
+	it('adds a new task with no date1', async () => {
 		await addNewTodo(screen, todoLabel1);
 
 		const newItemText = await screen.findByText(todoLabel1);
@@ -103,9 +106,12 @@ describe('Actions', () => {
 
 	it('deletes an existing task', async () => {
 		await addNewTodo(screen, todoLabel1);
+		await addNewTodo(screen, todoLabel2);
 
-		const deleteButton = screen.getByRole('button', { name: /delete to do/i });
-		userEvent.click(deleteButton);
+		const deleteButton = screen.getAllByRole('button', {
+			name: /delete to do/i,
+		});
+		userEvent.click(deleteButton[0]);
 
 		expect(
 			await waitFor(() => {
@@ -116,14 +122,15 @@ describe('Actions', () => {
 
 	it('updates the completed status', async () => {
 		await addNewTodo(screen, todoLabel1);
+		await addNewTodo(screen, todoLabel2);
 
-		const completeButton = screen.getByRole('button', {
+		const completeButton = screen.getAllByRole('button', {
 			name: /mark to do as completed/i,
 		});
 
-		expect(completeButton).toBeTruthy();
+		expect(completeButton.length).toEqual(2);
 
-		userEvent.click(completeButton);
+		userEvent.click(completeButton[0]);
 		const unCompleteButton = screen.getByRole('button', {
 			name: /Mark to do as not completed/i,
 		});
@@ -131,10 +138,10 @@ describe('Actions', () => {
 
 		userEvent.click(unCompleteButton);
 		expect(
-			screen.getByRole('button', {
+			screen.getAllByRole('button', {
 				name: /mark to do as completed/i,
-			})
-		).toBeTruthy();
+			}).length
+		).toEqual(2);
 	});
 
 	it('shows the filtered rows', async () => {
@@ -145,7 +152,7 @@ describe('Actions', () => {
 		});
 		userEvent.click(completeButton);
 
-		await addNewTodo(screen, todoLabel2, todoDate1);
+		await addNewTodo(screen, todoLabel2, todoDate2);
 
 		let todoList = screen.getAllByRole(/listitem/i);
 		expect(todoList.length).toBe(2);

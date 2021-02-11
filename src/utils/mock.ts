@@ -1,5 +1,6 @@
 import fetchMock from 'fetch-mock';
 const setupMocks = () => {
+	fetchMock.config.overwriteRoutes = true;
 	fetchMock.reset();
 	fetchMock.get(
 		'http://localhost:9000/todos/',

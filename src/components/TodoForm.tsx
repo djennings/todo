@@ -46,7 +46,7 @@ const AddTodo: React.FC = () => {
 		const data = { ...newTodo, dueDate };
 		addTodo({ ...data, id: uuid() });
 		toggleAddingNew();
-		setNewTodo(() => initialState);
+		setNewTodo(initialState);
 		reset();
 		clearErrors();
 	};
@@ -54,7 +54,7 @@ const AddTodo: React.FC = () => {
 	const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		toggleAddingNew();
-		setNewTodo(() => initialState);
+		setNewTodo(initialState);
 		reset();
 		clearErrors();
 	};
