@@ -4,7 +4,7 @@ const todoDate_1 = '2021/12/31';
 describe('The action bar', () => {
 	beforeEach(() => {
 		cy.visit('http://localhost:3000');
-		cy.intercept('GET', 'todos/', { fixture: 'get_all_todos.json' });
+		cy.intercept('GET', 'todos/', { fixture: 'get_empty_todos.json' });
 		cy.intercept('POST', 'todos/', { fixtures: 'post_response.json' });
 	});
 	it('contains the new button and the filter options', () => {
@@ -19,7 +19,7 @@ describe('The action bar', () => {
 describe('Given that the new todo form loads', () => {
 	beforeEach(() => {
 		cy.visit('http://localhost:3000');
-		cy.intercept('GET', 'todos/', { fixture: 'get_all_todos.json' });
+		cy.intercept('GET', 'todos/', { fixture: 'get_empty_todos.json' });
 		cy.intercept('POST', 'todos/', { fixtures: 'post_response.json' });
 	});
 
