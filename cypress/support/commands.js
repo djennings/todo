@@ -26,7 +26,7 @@
 import '@testing-library/cypress/add-commands';
 
 Cypress.Commands.add('openNew', () => {
-	cy.get('button', { name: 'new' }).click();
+	cy.get('button').contains(/new/i).click();
 });
 
 Cypress.Commands.add('getButton', (text) => {
