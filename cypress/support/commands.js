@@ -23,3 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import '@testing-library/cypress/add-commands';
+
+Cypress.Commands.add('openNew', () => {
+	cy.get('button', { name: 'new' }).click();
+});
+
+Cypress.Commands.add('getButton', (text) => {
+	const seachEx = new RegExp(text, 'i');
+	cy.get('button').contains(seachEx);
+});
