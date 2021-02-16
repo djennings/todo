@@ -35,6 +35,5 @@ Cypress.Commands.add('getButton', (text) => {
 });
 
 Cypress.Commands.add('getButtonByTitle', (text) => {
-	const seachEx = new RegExp(text, 'i');
 	cy.get(`button[title="${text}"]`);
 });
