@@ -34,6 +34,7 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 			<button
 				className={`${styles.actionButton}`}
 				onClick={handleDelete}
+				tabIndex={0}
 				title="Delete to do"
 			>
 				<img alt="delete" className={`${styles.deleteIcon}`} src={deleteIcon} />
@@ -57,6 +58,7 @@ const Todo: React.FC<MyProps> = ({ item }: MyProps) => {
 				className={classnames(`${styles.todo}`, {
 					[styles.completed]: item.completed,
 				})}
+				tabIndex={0}
 			>
 				{item.task}
 			</span>

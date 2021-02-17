@@ -44,7 +44,20 @@
 
 .buttons {
 	bottom: 0;
+	display: flex;
 	position: absolute;
+}
+
+@media only screen and (max-width: 955px) {
+	.buttons {
+		bottom: -40px;
+		flex-direction: column;
+		margin-top: 20px;
+	}
+
+	.buttons button {
+		margin-top: 10px;
+	}
 }
 
 .buttons button {
@@ -54,6 +67,7 @@
 	color: white;
 	cursor: pointer;
 	margin-right: 25px;
+	outline: none;
 	padding: 5px 15px;
 }
 

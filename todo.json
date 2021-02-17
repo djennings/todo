@@ -1,3 +1,10 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "task": "s",
+      "completed": true,
+      "dueDate": "",
+      "id": "81c60a53-6ee2-4999-b308-443a49ab63c3"
+    }
+  ]
 }

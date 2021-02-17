@@ -15,18 +15,22 @@ const Actions: React.FC = () => {
 
 	return (
 		<div className={`${styles.actions}`}>
-			<button onClick={handleAddNew} className={`${styles.action}`}>
+			<button
+				className={`${styles.action}`}
+				onClick={handleAddNew}
+				tabIndex={1}
+			>
 				New
 			</button>
 			<div className={`${styles.filter}`}>
 				<div>
 					<label>
 						<input
+							checked={filterItems === Filter.All}
+							name="filter"
 							onChange={handleFilterChange}
 							type="radio"
-							name="filter"
 							value={Filter.All}
-							checked={filterItems === Filter.All}
 						/>
 						Display All
 					</label>
@@ -34,11 +38,11 @@ const Actions: React.FC = () => {
 				<div>
 					<label>
 						<input
-							onChange={handleFilterChange}
-							type="radio"
-							name="filter"
-							value={Filter.Completed}
 							checked={filterItems === Filter.Completed}
+							onChange={handleFilterChange}
+							name="filter"
+							type="radio"
+							value={Filter.Completed}
 						/>
 						Completed
 					</label>
@@ -47,10 +51,10 @@ const Actions: React.FC = () => {
 					<label>
 						<input
 							onChange={handleFilterChange}
-							type="radio"
-							name="filter"
-							value={Filter.Incomplete}
 							checked={filterItems === Filter.Incomplete}
+							name="filter"
+							type="radio"
+							value={Filter.Incomplete}
 						/>
 						Not Complete
 					</label>
