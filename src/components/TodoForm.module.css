@@ -79,3 +79,7 @@
 	cursor: default;
 	opacity: 0.5;
 }
+
+.buttons button:focus {
+	box-shadow: 0 0 3pt 2pt rgb(255, 0, 98);
+}
