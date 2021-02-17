@@ -24,5 +24,6 @@ body {
 }
 
 .App {
-	height: 100%;
+	height: calc(100% - 1.5em - 70px);
+	overflow: auto;
 }

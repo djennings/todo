@@ -1,52 +1,16 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { addNewTodo, render, screen, waitFor } from './test-utils';
 import userEvent from '@testing-library/user-event';
 import App from './App';
-import TodoContextProvider from './contexts/TodoContext';
-import setupMocks from './utils/mock';
 
 const todoLabel1 = 'Sample Task 1';
 const todoLabel2 = 'Sample Task 2';
 const todoDate1 = '2021/12/31';
 const todoDate2 = '2020/9/1';
 
-const addNewTodo = async (
-	env: any,
-	taskLabel: string,
-	dueDate: string = ''
-) => {
-	const newBtn = env.getByRole('button', { name: /new/i });
-	userEvent.click(newBtn);
-
-	const taskName = screen.getByRole('textbox', {
-		name: /new task label:/i,
-	});
-
-	userEvent.type(taskName, taskLabel);
-
-	if (dueDate.length) {
-		const dateInput = screen.getByRole('textbox', {
-			name: /due date \(optional\):/i,
-		});
-		userEvent.type(dateInput, dueDate);
-	}
-
-	const addBtn = screen.getByRole('button', { name: /add/i });
-	userEvent.click(addBtn);
-
-	try {
-		await env.findByText(taskLabel);
-	} catch (err) {}
-};
-
 describe('Given that the main container is rendered', () => {
 	beforeEach(async () => {
-		setupMocks();
-		render(
-			<TodoContextProvider>
-				<App />
-			</TodoContextProvider>
-		);
+		render(<App />, {});
 
 		await screen.findByRole(/listitem/i);
 	});
@@ -71,24 +35,20 @@ describe('Given that the main container is rendered', () => {
 describe('Actions', () => {
 	beforeEach(async () => {
 		jest.clearAllMocks();
-		render(
-			<TodoContextProvider>
-				<App />
-			</TodoContextProvider>
-		);
+		render(<App />, {});
 
 		await screen.findByRole(/listitem/i);
 	});
 
 	it('adds a new task with no date1', async () => {
-		await addNewTodo(screen, todoLabel1);
+		await addNewTodo(todoLabel1);
 
 		const newItemText = await screen.findByText(todoLabel1);
 		expect(newItemText).toBeInTheDocument();
 	});
 
 	it('adds a new task with date', async () => {
-		await addNewTodo(screen, todoLabel1, todoDate1);
+		await addNewTodo(todoLabel1, todoDate1);
 
 		const newItemText = await screen.findByText(todoLabel1);
 		expect(newItemText).toBeInTheDocument();
@@ -98,15 +58,15 @@ describe('Actions', () => {
 	});
 
 	it('catches the error for an invalid date', async () => {
-		await addNewTodo(screen, todoLabel1, 'xxxxxx');
+		await addNewTodo(todoLabel1, 'xxxxxx');
 
 		const dateErrorMessage = await screen.findByText(/invalid date/i);
 		expect(dateErrorMessage).toBeInTheDocument();
 	});
 
 	it('deletes an existing task', async () => {
-		await addNewTodo(screen, todoLabel1);
-		await addNewTodo(screen, todoLabel2);
+		await addNewTodo(todoLabel1);
+		await addNewTodo(todoLabel2);
 
 		const deleteButton = screen.getAllByRole('button', {
 			name: /delete to do/i,
@@ -121,8 +81,8 @@ describe('Actions', () => {
 	});
 
 	it('updates the completed status', async () => {
-		await addNewTodo(screen, todoLabel1);
-		await addNewTodo(screen, todoLabel2);
+		await addNewTodo(todoLabel1);
+		await addNewTodo(todoLabel2);
 
 		const completeButton = screen.getAllByRole('button', {
 			name: /mark to do as completed/i,
@@ -145,14 +105,14 @@ describe('Actions', () => {
 	});
 
 	it('shows the filtered rows', async () => {
-		await addNewTodo(screen, todoLabel1);
+		await addNewTodo(todoLabel1);
 
 		const completeButton = screen.getByRole('button', {
 			name: /mark to do as completed/i,
 		});
 		userEvent.click(completeButton);
 
-		await addNewTodo(screen, todoLabel2, todoDate2);
+		await addNewTodo(todoLabel2, todoDate2);
 
 		let todoList = screen.getAllByRole(/listitem/i);
 		expect(todoList.length).toBe(2);
