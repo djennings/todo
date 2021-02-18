@@ -2,6 +2,7 @@ import React from 'react';
 import { addNewTodo, render, screen, waitFor } from './test-utils';
 import userEvent from '@testing-library/user-event';
 import App from './App';
+import { requestPayload } from './utils/testUtils';
 
 const todoLabel1 = 'Sample Task 1';
 const todoLabel2 = 'Sample Task 2';
@@ -42,6 +43,12 @@ describe('Actions', () => {
 
 	it('adds a new task with no date1', async () => {
 		await addNewTodo(todoLabel1);
+		expect(JSON.parse(requestPayload('end:/todos/', 'POST'))).toMatchObject({
+			task: 'Sample Task 1',
+			completed: false,
+			dueDate: '',
+			id: expect.anything(),
+		});
 
 		const newItemText = await screen.findByText(todoLabel1);
 		expect(newItemText).toBeInTheDocument();
