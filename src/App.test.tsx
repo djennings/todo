@@ -4,10 +4,22 @@ import userEvent from '@testing-library/user-event';
 import App from './App';
 import { requestPayload } from './utils/testUtils';
 
-const todoLabel1 = 'Sample Task 1';
-const todoLabel2 = 'Sample Task 2';
 const todoDate1 = '2021/12/31';
 const todoDate2 = '2020/9/1';
+
+const todo1 = {
+	task: 'Sample Task 1',
+	dueDate: '',
+	completed: false,
+	id: expect.anything(),
+};
+
+const todo2 = {
+	task: 'Sample Task 2',
+	dueDate: '',
+	completed: false,
+	id: expect.anything(),
+};
 
 describe('Given that the main container is rendered', () => {
 	beforeEach(async () => {
@@ -42,22 +54,25 @@ describe('Actions', () => {
 	});
 
 	it('adds a new task with no date1', async () => {
-		await addNewTodo(todoLabel1);
-		expect(JSON.parse(requestPayload('end:/todos/', 'POST'))).toMatchObject({
-			task: 'Sample Task 1',
-			completed: false,
-			dueDate: '',
-			id: expect.anything(),
-		});
+		await addNewTodo(todo1.task);
 
-		const newItemText = await screen.findByText(todoLabel1);
+		expect(JSON.parse(requestPayload('end:/todos/', 'POST'))).toMatchObject(
+			todo1
+		);
+
+		const newItemText = await screen.findByText(todo1.task);
 		expect(newItemText).toBeInTheDocument();
 	});
 
 	it('adds a new task with date', async () => {
-		await addNewTodo(todoLabel1, todoDate1);
+		await addNewTodo(todo1.task, todoDate1);
 
-		const newItemText = await screen.findByText(todoLabel1);
+		expect(JSON.parse(requestPayload('end:/todos/', 'POST'))).toMatchObject({
+			...todo1,
+			dueDate: todoDate1,
+		});
+
+		const newItemText = await screen.findByText(todo1.task);
 		expect(newItemText).toBeInTheDocument();
 
 		const newItemDueDate = await screen.findByText(todoDate1);
@@ -65,31 +80,39 @@ describe('Actions', () => {
 	});
 
 	it('catches the error for an invalid date', async () => {
-		await addNewTodo(todoLabel1, 'xxxxxx');
+		await addNewTodo(todo1.task, 'xxxxxx');
 
 		const dateErrorMessage = await screen.findByText(/invalid date/i);
 		expect(dateErrorMessage).toBeInTheDocument();
 	});
 
 	it('deletes an existing task', async () => {
-		await addNewTodo(todoLabel1);
-		await addNewTodo(todoLabel2);
+		await addNewTodo(todo1.task);
+		await addNewTodo(todo2.task);
 
 		const deleteButton = screen.getAllByRole('button', {
 			name: /delete to do/i,
 		});
 		userEvent.click(deleteButton[0]);
 
+		expect(requestPayload('express:/todos//:id', 'DELETE')).toEqual('');
+
 		expect(
 			await waitFor(() => {
-				screen.queryByText(/Sample Task 1/i);
+				screen.queryByText(todo1.task);
 			})
 		).not.toBeTruthy();
 	});
 
 	it('updates the completed status', async () => {
-		await addNewTodo(todoLabel1);
-		await addNewTodo(todoLabel2);
+		await addNewTodo(todo1.task);
+		expect(JSON.parse(requestPayload('end:/todos/', 'POST'))).toMatchObject(
+			todo1
+		);
+		await addNewTodo(todo2.task);
+		expect(JSON.parse(requestPayload('end:/todos/', 'POST'))).toMatchObject(
+			todo2
+		);
 
 		const completeButton = screen.getAllByRole('button', {
 			name: /mark to do as completed/i,
@@ -98,12 +121,22 @@ describe('Actions', () => {
 		expect(completeButton.length).toEqual(2);
 
 		userEvent.click(completeButton[0]);
+
+		expect(
+			JSON.parse(requestPayload('express:/todos//:id', 'PUT'))
+		).toMatchObject({ ...todo1, completed: true });
+
 		const unCompleteButton = screen.getByRole('button', {
 			name: /Mark to do as not completed/i,
 		});
 		expect(unCompleteButton).toBeTruthy();
 
 		userEvent.click(unCompleteButton);
+
+		expect(
+			JSON.parse(requestPayload('express:/todos//:id', 'PUT'))
+		).toMatchObject({ ...todo1, completed: false });
+
 		expect(
 			screen.getAllByRole('button', {
 				name: /mark to do as completed/i,
@@ -112,19 +145,19 @@ describe('Actions', () => {
 	});
 
 	it('shows the filtered rows', async () => {
-		await addNewTodo(todoLabel1);
+		await addNewTodo(todo1.task);
 
 		const completeButton = screen.getByRole('button', {
 			name: /mark to do as completed/i,
 		});
 		userEvent.click(completeButton);
 
-		await addNewTodo(todoLabel2, todoDate2);
+		await addNewTodo(todo2.task, todoDate2);
 
 		let todoList = screen.getAllByRole(/listitem/i);
 		expect(todoList.length).toBe(2);
-		expect(screen.getByText(/Sample Task 1/i)).toBeInTheDocument();
-		expect(screen.getByText(/Sample Task 2/i)).toBeInTheDocument();
+		expect(screen.getByText(todo1.task)).toBeInTheDocument();
+		expect(screen.getByText(todo2.task)).toBeInTheDocument();
 
 		const showCompleted = screen.getByRole('radio', {
 			name: /completed/i,
@@ -133,16 +166,16 @@ describe('Actions', () => {
 		todoList = screen.getAllByRole(/listitem/i);
 
 		expect(todoList.length).toBe(1);
-		expect(screen.getByText(/Sample Task 1/i)).toBeInTheDocument();
-		expect(screen.queryByText(/Sample Task 2/i)).not.toBeInTheDocument();
+		expect(screen.getByText(todo1.task)).toBeInTheDocument();
+		expect(screen.queryByText(todo2.task)).not.toBeInTheDocument();
 
 		const showNotCompleted = screen.getByText(/not complete/i);
 		userEvent.click(showNotCompleted);
 		todoList = screen.getAllByRole(/listitem/i);
 
 		expect(todoList.length).toBe(1);
-		expect(screen.queryByText(/Sample Task 1/i)).not.toBeInTheDocument();
-		expect(screen.getByText(/Sample Task 2/i)).toBeInTheDocument();
+		expect(screen.queryByText(todo1.task)).not.toBeInTheDocument();
+		expect(screen.getByText(todo2.task)).toBeInTheDocument();
 	});
 
 	it('will cancel an add when cancel button clicked', () => {
@@ -168,7 +201,7 @@ describe('Actions', () => {
 			name: /new task label:/i,
 		});
 
-		userEvent.type(taskName, todoLabel1);
+		userEvent.type(taskName, todo1.task);
 
 		expect(clearBtn).not.toBeDisabled();
 
@@ -177,12 +210,12 @@ describe('Actions', () => {
 		});
 		userEvent.type(dateInput, todoDate1);
 
-		expect(screen.getByDisplayValue(todoLabel1)).toBeTruthy();
+		expect(screen.getByDisplayValue(todo1.task)).toBeTruthy();
 		expect(screen.getByDisplayValue(todoDate1)).toBeTruthy();
 
 		userEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-		expect(screen.queryByDisplayValue(todoLabel1)).not.toBeTruthy();
+		expect(screen.queryByDisplayValue(todo1.task)).not.toBeTruthy();
 		expect(screen.queryByDisplayValue(todoDate1)).not.toBeTruthy();
 	});
 });

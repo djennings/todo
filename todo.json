@@ -2,9 +2,15 @@
   "todos": [
     {
       "task": "Add additional tests for request object",
-      "completed": false,
+      "completed": true,
       "dueDate": "",
       "id": "8e02f5af-6873-4026-b1a3-80e494b95c40"
+    },
+    {
+      "task": "x",
+      "completed": true,
+      "dueDate": "",
+      "id": "d13d2d5b-45e1-48b2-bb1c-f113b60a933d"
     }
   ]
 }

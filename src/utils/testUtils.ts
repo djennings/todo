@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock';
 
-const requestPayload = (matcher: string, method: string) => {
+export const requestPayload = (matcher: string, method: string): any => {
 	let methodObj = {};
 	if (method && method.length) {
 		methodObj = { ...methodObj, method };
@@ -9,7 +9,5 @@ const requestPayload = (matcher: string, method: string) => {
 	// return lastOptions && lastOptions.body ? lastOptions.body : {};
 	const options = fetchMock.lastOptions(matcher, methodObj);
 
-	return options && options.body ? options.body : {};
+	return options && options.body ? options.body : '';
 };
-
-exports.requestPayload = requestPayload;
