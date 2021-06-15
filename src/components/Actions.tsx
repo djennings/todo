@@ -18,7 +18,7 @@ const Actions: React.FC = () => {
 			<button
 				className={`${styles.action}`}
 				onClick={handleAddNew}
-				tabIndex={1}
+				tabIndex={0}
 			>
 				New
 			</button>

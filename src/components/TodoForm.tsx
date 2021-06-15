@@ -88,6 +88,7 @@ const AddTodo: React.FC = () => {
 
 	return (
 		<div
+			aria-label="New Todo Dialog"
 			className={classnames(
 				`${styles.form}`,
 				{ [styles.visible]: addingNew },
