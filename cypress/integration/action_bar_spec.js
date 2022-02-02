@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 const todoTask_1 = 'Sample task #1';
 const todoDate_1 = '2021/12/31';
 
